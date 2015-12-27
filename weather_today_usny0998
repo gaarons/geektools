@@ -1,0 +1,1 @@
+curl --silent "http://weather.yahooapis.com/forecastrss?p=USNY0998&u=f" | grep -E '(Current Conditions:|F<BR)' | tail -n1 | sed -e 's/<BR \/>//' -e 's/ F$/˚F/'

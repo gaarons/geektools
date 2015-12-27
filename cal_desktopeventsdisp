@@ -1,0 +1,1 @@
+/usr/local/bin/icalBuddy -ic "SpecialEvents, IphoneReminders, Desktop"  -sd -nc -n -eed -iep "title,datetime" -po "datetime,title" -ps "/ » /" -li 4 -nrd -sed -npn -b "" eventsToday

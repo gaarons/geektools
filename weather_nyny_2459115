@@ -1,0 +1,42 @@
+# MIAMI FL 2450022 #
+# New York NY 2459115 #
+WEATHER=`curl --silent -i "http://weather.yahooapis.com/forecastrss?w=2459115&u=f"`;
+
+Location() {
+f=$(echo "$WEATHER" | grep "yweather:location" | head -1 | tail -1 | grep -o '"[0-9a-zA-Z. ]*"' | sed -e 's/^"//'  -e 's/"$//');
+city=$(echo "$f" | head -1 | tail -1);
+printf "$city";
+printf ", ";
+}
+ForecastNow() {
+f=$(echo "$WEATHER" | grep "yweather:condition" | head -1 | tail -1 | grep -o '"[0-9a-zA-Z. ]*"' | sed -e 's/^"//'  -e 's/"$//');
+desc=$(echo "$f" | head -1 | tail -1);
+code=$(echo "$f" | head -6 | tail -1);
+printf "$desc \n";
+#cp $code.png temp.png
+curl -s "https://uk.weather.yahoo.com/united-states/florida/miami-12772181/" | grep "current-weather" | sed "s/.*background\:url(\'\(.*\)\') .*/\1/" | xargs curl -s -o /Users/Lester/Documents/Apps/Weather/Icon/currentweather.png
+}
+Condition() {
+f=$(echo "$WEATHER" | grep "yweather:condition" | head -$1 | tail -1 | grep -o '"[0-9a-zA-Z. ]*"' | sed -e 's/^"//'  -e 's/"$//');
+temperature=$(echo "$f" | head -3 | tail -1);
+#cp $temperature.png temp.png
+}
+Forecast() {
+f=$(echo "$WEATHER" | grep "yweather:forecast" | head -$1 | tail -1 | grep -o '"[0-9a-zA-Z. ]*"' | sed -e 's/^"//'  -e 's/"$//');
+day=$(echo "$f" | head -1);
+low=$(echo "$f" | head -3 | tail -1);
+high=$(echo "$f" | head -4 | tail -1);
+desc=$(echo "$f" | head -5 | tail -1);
+printf "$day"; printf ".   \t "; printf "$low" ; printf "°F - "; printf "$high"; printf "°F \t " ; printf "$desc"; printf "\n";
+}
+
+# WEATHER SECTION #
+# Location;
+# ForecastNow;
+# Condition 1;
+
+# FORECAST SECTION #
+echo "";
+Forecast 2;
+Forecast 3;
+Forecast 4;
